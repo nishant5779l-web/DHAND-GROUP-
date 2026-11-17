@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0b0d" />
+  <title>DHAND GROUP 💀 | Official CPM2 Community</title>
+  <style>
+    :root {
+      --bg: #09090b;
+      --panel: #121214;
+      --panel-2: #18181b;
+      --line: rgba(218, 176, 83, .20);
+      --gold: #d8ad52;
+      --gold-light: #f3d58c;
+      --text: #f4f0e7;
+      --muted: #a7a19a;
+      --green: #65c98b;
+      --red: #ef7777;
+      --radius: 18px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; color: var(--text);
+      background:
+        radial-gradient(circle at 85% 0%, rgba(216,173,82,.12), transparent 28rem),
+        radial-gradient(circle at 0% 100%, rgba(216,173,82,.06), transparent 25rem),
+        var(--bg);
+    }
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .hidden { display: none !important; }
+    .gold { color: var(--gold-light); }
+    .muted { color: var(--muted); }
+    .eyebrow { color: var(--gold); text-transform: uppercase; letter-spacing: .19em; font-size: .68rem; font-weight: 800; }
+    .brand-mark {
+      width: 48px; height: 48px; display: grid; place-items: center; flex: 0 0 auto;
+      border: 1px solid rgba(243,213,140,.55); border-radius: 15px;
+      background: linear-gradient(145deg, #292116, #111); color: var(--gold-light);
+      font-size: 1.25rem; font-weight: 950; box-shadow: 0 8px 30px rgba(216,173,82,.10);
+    }
+    .brand-name { font-weight: 950; letter-spacing: .08em; line-height: 1.1; }
+    .brand-sub { color: var(--muted); font-size: .72rem; margin-top: 5px; letter-spacing: .08em; }
+    .auth-wrap { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+    .auth-card {
+      width: min(100%, 440px); padding: 30px; border: 1px solid var(--line);
+      border-radius: 26px; background: linear-gradient(160deg, rgba(25,24,22,.98), rgba(13,13,15,.98));
+      box-shadow: 0 24px 90px rgba(0,0,0,.48);
+    }
+    .auth-brand { display: flex; align-items: center; gap: 13px; margin-bottom: 28px; }
+    h1 { font-size: clamp(1.8rem, 5vw, 2.35rem); margin: 9px 0 8px; letter-spacing: -.045em; }
+    h2 { margin: 0; font-size: 1.15rem; }
+    h3 { margin: 0; font-size: 1rem; }
+    p { line-height: 1.55; }
+    .field { display: grid; gap: 7px; margin: 14px 0; }
+    label { color: #d8d0c2; font-size: .82rem; font-weight: 700; }
+    input, textarea {
+      width: 100%; padding: 13px 14px; color: var(--text); background: #0b0b0d;
+      border: 1px solid #33302a; border-radius: 12px; outline: none; transition: .2s;
+    }
+    input:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(216,173,82,.10); }
+    textarea { resize: vertical; min-height: 92px; }
+    .btn {
+      border: 1px solid transparent; border-radius: 12px; padding: 12px 16px;
+      color: #17130b; background: linear-gradient(135deg, var(--gold-light), #bd8c35);
+      font-weight: 850; transition: transform .15s, filter .15s;
+    }
+    .btn:hover { filter: brightness(1.07); transform: translateY(-1px); }
+    .btn:disabled { opacity: .55; cursor: wait; transform: none; }
+    .btn-block { width: 100%; margin-top: 9px; }
+    .btn-secondary { background: #22201c; border-color: #4a3b20; color: var(--gold-light); }
+    .btn-danger { background: #351c1c; color: #ffc4c4; border-color: #713838; }
+    .text-btn { background: none; border: 0; color: var(--gold-light); padding: 8px 0; font-weight: 750; }
+    .notice {
+      padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px;
+      background: rgba(216,173,82,.07); color: #e6d8b9; font-size: .82rem; line-height: 1.5;
+    }
+    .error { color: #ffaaaa; font-size: .82rem; margin-top: 10px; min-height: 1.2em; }
+    .success { color: #9ce2b3; font-size: .82rem; margin-top: 10px; }
+    .app-shell { min-height: 100vh; }
+    .topbar {
+      position: sticky; top: 0; z-index: 10; display: flex; align-items: center;
+      justify-content: space-between; gap: 18px; padding: 14px clamp(16px, 4vw, 48px);
+      border-bottom: 1px solid var(--line); background: rgba(9,9,11,.88); backdrop-filter: blur(18px);
+    }
+    .top-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .top-actions { display: flex; align-items: center; gap: 10px; }
+    .user-chip { color: var(--muted); font-size: .78rem; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .layout { width: min(1400px, 100%); margin: auto; padding: 28px clamp(16px, 4vw, 48px) 60px; }
+    .nav {
+      display: flex; gap: 8px; overflow-x: auto; padding: 0 0 18px; scrollbar-width: thin;
+    }
+    .nav button {
+      white-space: nowrap; border: 1px solid #302b22; border-radius: 999px;
+      color: #c8c0b2; background: #111113; padding: 10px 15px; font-size: .82rem; font-weight: 750;
+    }
+    .nav button.active { color: #17130b; border-color: var(--gold); background: var(--gold); }
+    .page-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 8px 0 22px; }
+    .page-head p { margin: 6px 0 0; color: var(--muted); font-size: .88rem; }
+    .hero {
+      position: relative; overflow: hidden; padding: clamp(22px, 4vw, 38px);
+      border: 1px solid rgba(216,173,82,.30); border-radius: 24px;
+      background: linear-gradient(115deg, rgba(50,38,18,.82), rgba(19,18,17,.97) 55%, rgba(12,12,14,.98));
+      margin-bottom: 20px;
+    }
+    .hero:after { content: "💀"; position: absolute; right: 5%; top: 50%; transform: translateY(-50%); font-size: clamp(5rem, 17vw, 11rem); opacity: .10; filter: grayscale(1); }
+    .hero h1 { max-width: 680px; }
+    .hero p { max-width: 620px; color: #c4bba9; margin-bottom: 0; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; margin: 18px 0; }
+    .stat, .panel, .member-card, .room-card, .update-card {
+      border: 1px solid var(--line); border-radius: var(--radius); background: rgba(18,18,20,.92);
+    }
+    .stat { padding: 18px; }
+    .stat strong { display: block; font-size: 1.8rem; color: var(--gold-light); margin-top: 7px; }
+    .stat span { color: var(--muted); font-size: .76rem; }
+    .grid-2 { display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px; }
+    .panel { padding: 20px; min-width: 0; }
+    .panel-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 15px; }
+    .stack { display: grid; gap: 12px; }
+    .empty { color: var(--muted); text-align: center; padding: 28px 12px; font-size: .88rem; border: 1px dashed #3b3427; border-radius: 14px; }
+    .list-item { padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .list-item:last-child { border-bottom: 0; }
+    .list-item p { color: #c3bdb2; margin: 6px 0 0; font-size: .86rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .meta { color: var(--muted); font-size: .72rem; margin-top: 7px; }
+    .cards-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
+    .member-card, .room-card, .update-card { padding: 17px; min-width: 0; }
+    .avatar {
+      width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center;
+      color: var(--gold-light); background: #2a2114; border: 1px solid #5b4725; font-weight: 900;
+    }
+    .member-top { display: flex; align-items: center; gap: 11px; margin-bottom: 13px; }
+    .member-top p { margin: 4px 0 0; color: var(--muted); font-size: .76rem; }
+    .detail-line { color: #c8c0b2; font-size: .82rem; margin: 7px 0; overflow-wrap: anywhere; }
+    .pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #514124; background: rgba(216,173,82,.08); color: var(--gold-light); border-radius: 999px; padding: 5px 9px; font-size: .68rem; font-weight: 800; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 13px; }
+    .form-grid .wide { grid-column: 1 / -1; }
+    .chat-box { display: flex; flex-direction: column; height: min(65vh, 650px); min-height: 390px; }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 8px 3px 16px; display: flex; flex-direction: column; gap: 10px; }
+    .chat-message { max-width: min(82%, 620px); align-self: flex-start; border: 1px solid #373027; background: #1a1917; border-radius: 14px 14px 14px 4px; padding: 10px 13px; }
+    .chat-message.mine { align-self: flex-end; border-color: #725a2c; background: #292114; border-radius: 14px 14px 4px 14px; }
+    .chat-message strong { display: block; color: var(--gold-light); font-size: .75rem; margin-bottom: 5px; }
+    .chat-message p { margin: 0; font-size: .88rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .chat-message small { display: block; color: var(--muted); font-size: .65rem; margin-top: 6px; text-align: right; }
+    .chat-form { display: flex; gap: 9px; padding-top: 13px; border-top: 1px solid var(--line); }
+    .chat-form input { flex: 1; min-width: 0; }
+    .room-secret { padding: 9px 10px; background: #0c0c0e; border: 1px dashed #66502a; border-radius: 10px; margin-top: 9px; font-size: .82rem; overflow-wrap: anywhere; }
+    .room-secret b { color: var(--gold-light); }
+    .approval-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .approval-row:last-child { border-bottom: 0; }
+    .approval-row .btn { padding: 8px 11px; font-size: .75rem; }
+    .account-code { display: block; padding: 12px; background: #080809; border: 1px solid #373027; border-radius: 10px; color: var(--gold-light); word-break: break-all; font-family: ui-monospace, monospace; font-size: .78rem; }
+    .footer { color: #6f6a61; text-align: center; font-size: .72rem; padding: 35px 10px 0; }
+    @media (max-width: 900px) {
+      .stats { grid-template-columns: repeat(2,1fr); }
+      .cards-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .auth-card { padding: 23px 19px; }
+      .topbar { padding: 11px 14px; }
+      .brand-mark { width: 42px; height: 42px; }
+      .user-chip { display: none; }
+      .layout { padding-top: 18px; }
+      .stats { gap: 9px; }
+      .stat { padding: 14px; }
+      .stat strong { font-size: 1.45rem; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-grid .wide { grid-column: auto; }
+      .page-head { align-items: start; flex-direction: column; }
+      .chat-box { min-height: 55vh; }
+      .chat-form .btn { padding: 11px 13px; }
+    }
+  </style>
+</head>
+<body>
+  <section id="authView" class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="brand-mark">💀</div>
+        <div><div class="brand-name">DHAND GROUP</div><div class="brand-sub">OFFICIAL CPM2 COMMUNITY</div></div>
+      </div>
+      <div class="eyebrow">Members access portal</div>
+      <h1 id="authTitle">Welcome back.</h1>
+      <p class="muted" id="authSubtitle">Sign in to access the official group dashboard.</p>
+      <div id="setupWarning" class="notice hidden"></div>
+      <form id="authForm">
+        <div id="registerFields" class="hidden">
+          <div class="field"><label for="displayName">Your name</label><input id="displayName" maxlength="40" autocomplete="name" placeholder="Enter your group name" /></div>
+          <div class="field"><label for="carType">Car type / model</label><input id="carType" maxlength="60" placeholder="e.g. Thar, Fortuner, Scorpio" /></div>
+          <div class="field"><label for="about">Short member information</label><input id="about" maxlength="100" placeholder="Your role or short intro (optional)" /></div>
+        </div>
+        <div class="field"><label for="email">Email address</label><input id="email" type="email" required autocomplete="email" placeholder="name@example.com" /></div>
+        <div class="field"><label for="password">Password</label><input id="password" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters" /></div>
+        <button id="authSubmit" class="btn btn-block" type="submit">Sign in</button>
+      </form>
+      <div id="authError" class="error" role="status"></div>
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px">
+        <button id="toggleAuth" class="text-btn" type="button">Create member account</button>
+        <button id="forgotPassword" class="text-btn" type="button">Forgot password?</button>
+      </div>
+      <p class="notice" style="margin:18px 0 0">New accounts need admin approval before they can view group members, room details, updates, or chat.</p>
+    </div>
+  </section>
+
+  <section id="pendingView" class="auth-wrap hidden">
+    <div class="auth-card">
+      <div class="auth-brand"><div class="brand-mark">💀</div><div><div class="brand-name">DHAND GROUP</div><div class="brand-sub">MEMBER VERIFICATION</div></div></div>
+      <span class="pill">ACCOUNT CREATED</span>
+      <h1>Waiting for approval.</h1>
+      <p class="muted">Your account has been created. The group admin must approve your membership before you can enter the community.</p>
+      <div class="field"><label>Your account UID (share with the admin only if needed)</label><code id="pendingUid" class="account-code"></code></div>
+      <button id="pendingCopy" class="btn btn-secondary btn-block" type="button">Copy account UID</button>
+      <button id="pendingLogout" class="btn btn-block" type="button">Sign out</button>
+      <div id="pendingMessage" class="success"></div>
+    </div>
+  </section>
+
+  <section id="appView" class="app-shell hidden">
+    <header class="topbar">
+      <div class="top-left">
+        <div class="brand-mark">💀</div>
+        <div><div class="brand-name">DHAND GROUP</div><div class="brand-sub">OFFICIAL CPM2 COMMUNITY</div></div>
+      </div>
+      <div class="top-actions">
+        <span id="userChip" class="user-chip"></span>
+        <span id="adminPill" class="pill hidden">ADMIN</span>
+        <button id="logoutBtn" class="btn btn-secondary" type="button">Logout</button>
+      </div>
+    </header>
+    <main class="layout">
+      <nav class="nav" aria-label="Main navigation">
+        <button class="active" data-page="dashboard">Dashboard</button>
+        <button data-page="members">Members</button>
+        <button data-page="updates">Daily updates</button>
+        <button data-page="rooms">Room details</button>
+        <button data-page="chat">Group chat</button>
+        <button data-page="account">My account</button>
+      </nav>
+      <div id="pageContent"></div>
+      <div class="footer">DHAND GROUP 💀 · Official CPM2 community portal · Keep the group respectful.</div>
+    </main>
+  </section>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+      onAuthStateChanged, signOut, sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+    import {
+      getFirestore, collection, doc, getDoc, setDoc, updateDoc, addDoc,
+      onSnapshot, query, where, orderBy, limit, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+    // 1) Replace these values with your Firebase project's Web App config.
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCQlGYfZIVaB08TpBwZQC3yCPK3YGSzOY",
+      authDomain: "dhand-group.firebaseapp.com",
+      projectId: "dhand-group",
+      storageBucket: "dhand-group.firebasestorage.app",
+      messagingSenderId: "855992050966",
+      appId: "1:855992050966:web:28a7e9b661cc527c7e9c37",
+      measurementId: "G-EELKLC9TDP"
+    };
+
+    // 2) After creating your owner account, copy its UID from "My account"
+    // and paste it here. Use the same UID in the Firestore security rules.
+    const ADMIN_UID = "PASTE_OWNER_UID_HERE";
+
+    const $ = (id) => document.getElementById(id);
+    const authView = $("authView"), pendingView = $("pendingView"), appView = $("appView");
+    const pageContent = $("pageContent");
+    let auth, db, currentUser = null, profile = null, admin = false, registering = false;
+    let activePage = "dashboard";
+    let members = [], pendingMembers = [], updates = [], rooms = [], messages = [];
+    let unsubscribers = [];
+
+    const configReady = firebaseConfig.apiKey !== "YOUR_API_KEY" &&
+      firebaseConfig.projectId !== "YOUR_PROJECT_ID" &&
+      firebaseConfig.appId !== "YOUR_APP_ID";
+
+    function showOnly(view) {
+      authView.classList.toggle("hidden", view !== "auth");
+      pendingView.classList.toggle("hidden", view !== "pending");
+      appView.classList.toggle("hidden", view !== "app");
+    }
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({
+        "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+      }[ch]));
+    }
+    function initials(name) {
+      return String(name || "M").trim().split(/\s+/).slice(0,2).map(x => x[0] || "").join("").toUpperCase();
+    }
+    function dateText(timestamp) {
+      if (!timestamp || typeof timestamp.toDate !== "function") return "Just now";
+      return timestamp.toDate().toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+    }
+    function setAuthError(message) { $("authError").textContent = message || ""; }
+    function friendlyError(error) {
+      const code = error?.code || "";
+      const messages = {
+        "auth/invalid-email": "Please enter a valid email address.",
+        "auth/user-not-found": "No account found with this email.",
+        "auth/wrong-password": "Incorrect password. Please try again.",
+        "auth/invalid-credential": "Email or password is incorrect.",
+        "auth/email-already-in-use": "This email already has an account. Please sign in.",
+        "auth/weak-password": "Use a password with at least 6 characters.",
+        "auth/too-many-requests": "Too many attempts. Please wait and try again.",
+        "auth/network-request-failed": "Network problem. Check your internet connection.",
+        "permission-denied": "Access denied. Check that the Firebase security rules are installed correctly."
+      };
+      return messages[code] || error?.message || "Something went wrong. Please try again.";
+    }
+
+    function stopListeners() {
+      unsubscribers.forEach(unsub => { try { unsub(); } catch (_) {} });
+      unsubscribers = [];
+    }
+
+    function showSetupInstructions() {
+      $("setupWarning").classList.remove("hidden");
+      $("setupWarning").innerHTML = "Firebase is not connected yet. Add your Firebase Web App config in this file, then enable <b>Authentication → Email/Password</b> and create a <b>Cloud Firestore</b> database. Follow the setup guide provided with this file.";
+      $("authSubmit").disabled = true;
+      $("toggleAuth").disabled = true;
+      $("forgotPassword").disabled = true;
+    }
+
+    function setAuthMode(isRegister) {
+      registering = isRegister;
+      $("registerFields").classList.toggle("hidden", !isRegister);
+      $("authTitle").textContent = isRegister ? "Join the group." : "Welcome back.";
+      $("authSubtitle").textContent = isRegister
+        ? "Create your member account. Admin approval is required."
+        : "Sign in to access the official group dashboard.";
+      $("authSubmit").textContent = isRegister ? "Create account" : "Sign in";
+      $("toggleAuth").textContent = isRegister ? "Already a member? Sign in" : "Create member account";
+      $("forgotPassword").classList.toggle("hidden", isRegister);
+      $("password").autocomplete = isRegister ? "new-password" : "current-password";
+      setAuthError("");
+    }
+
+    $("toggleAuth").addEventListener("click", () => setAuthMode(!registering));
+
+    $("authForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!auth || !db) return;
+      setAuthError("");
+      const email = $("email").value.trim();
+      const password = $("password").value;
+      const submit = $("authSubmit");
+      submit.disabled = true;
+      try {
+        if (registering) {
+          const displayName = $("displayName").value.trim();
+          const carType = $("carType").value.trim();
+          const about = $("about").value.trim();
+          if (!displayName) throw new Error("Please enter your name.");
+          const credential = await createUserWithEmailAndPassword(auth, email, password);
+          await setDoc(doc(db, "users", credential.user.uid), {
+            displayName, carType, about, email, status: "pending", createdAt: serverTimestamp()
+          });
+          $("pendingUid").textContent = credential.user.uid;
+          $("pendingMessage").textContent = "Your account is registered and waiting for admin approval.";
+          showOnly("pending");
+        } else {
+          await signInWithEmailAndPassword(auth, email, password);
+        }
+      } catch (error) {
+        setAuthError(friendlyError(error));
+      } finally {
+        submit.disabled = false;
+      }
+    });
+
+    $("forgotPassword").addEventListener("click", async () => {
+      const email = $("email").value.trim();
+      if (!email) { setAuthError("Enter your email address first."); return; }
+      try {
+        await sendPasswordResetEmail(auth, email);
+        setAuthError("");
+        $("authError").textContent = "Password reset email sent. Check your inbox.";
+        $("authError").className = "success";
+      } catch (error) {
+        setAuthError(friendlyError(error));
+      }
+    });
+
+    async function logout() {
+      stopListeners();
+      await signOut(auth);
+    }
+    $("logoutBtn").addEventListener("click", logout);
+    $("pendingLogout").addEventListener("click", logout);
+    $("pendingCopy").addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(currentUser.uid);
+        $("pendingMessage").textContent = "UID copied.";
+      } catch (_) {
+        $("pendingMessage").textContent = "Select and copy the UID above.";
+      }
+    });
+
+    function subscribeToData() {
+      stopListeners();
+      const approvedQuery = query(collection(db, "users"), where("status", "==", "approved"));
+      unsubscribers.push(onSnapshot(approvedQuery, snap => {
+        members = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        if (activePage === "members" || activePage === "dashboard") renderPage();
+      }, err => console.error("Members listener:", err)));
+
+      const updatesQuery = query(collection(db, "updates"), orderBy("createdAt", "desc"), limit(30));
+      unsubscribers.push(onSnapshot(updatesQuery, snap => {
+        updates = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        if (activePage === "updates" || activePage === "dashboard") renderPage();
+      }, err => console.error("Updates listener:", err)));
+
+      const roomsQuery = query(collection(db, "rooms"), orderBy("createdAt", "desc"), limit(30));
+      unsubscribers.push(onSnapshot(roomsQuery, snap => {
+        rooms = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        if (activePage === "rooms" || activePage === "dashboard") renderPage();
+      }, err => console.error("Rooms listener:", err)));
+
+      const messagesQuery = query(collection(db, "messages"), orderBy("createdAt", "desc"), limit(80));
+      unsubscribers.push(onSnapshot(messagesQuery, snap => {
+        messages = snap.docs.map(d => ({ id: d.id, ...d.data() })).reverse();
+        if (activePage === "chat") renderPage();
+      }, err => console.error("Messages listener:", err)));
+
+      if (admin) {
+        const pendingQuery = query(collection(db, "users"), where("status", "==", "pending"));
+        unsubscribers.push(onSnapshot(pendingQuery, snap => {
+          pendingMembers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          if (activePage === "dashboard") renderPage();
+        }, err => console.error("Pending members listener:", err)));
+      }
+    }
+
+    async function enterApp(user) {
+      currentUser = user;
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+      profile = userSnap.exists() ? userSnap.data() : null;
+      admin = user.uid === ADMIN_UID && ADMIN_UID !== "PASTE_OWNER_UID_HERE";
+
+      if (!profile && !admin) {
+        showOnly("pending");
+        $("pendingUid").textContent = user.uid;
+        $("pendingMessage").textContent = "Your profile is not set up. Please contact the group admin.";
+        return;
+      }
+      if (!admin && profile.status !== "approved") {
+        showOnly("pending");
+        $("pendingUid").textContent = user.uid;
+        $("pendingMessage").textContent = "Your account is waiting for admin approval.";
+        return;
+      }
+
+      $("userChip").textContent = profile?.displayName || user.email || "Member";
+      $("adminPill").classList.toggle("hidden", !admin);
+      showOnly("app");
+      subscribeToData();
+      renderPage();
+    }
+
+    function pageHeader(title, subtitle, eyebrow = "DHAND GROUP") {
+      return `<div class="page-head"><div><div class="eyebrow">${esc(eyebrow)}</div><h1 style="font-size:clamp(1.7rem,4vw,2.2rem);margin:7px 0 0">${esc(title)}</h1><p>${esc(subtitle)}</p></div></div>`;
+    }
+
+    function renderDashboard() {
+      const latestUpdates = updates.slice(0,3).map(item => `
+        <div class="list-item"><h3>${esc(item.title)}</h3><p>${esc(item.body)}</p><div class="meta">${dateText(item.createdAt)}</div></div>
+      `).join("") || `<div class="empty">No daily updates posted yet.</div>`;
+      const latestRooms = rooms.slice(0,2).map(room => `
+        <div class="list-item"><h3>${esc(room.title)}</h3><p>${esc(room.details || "Room details are available to approved members.")}</p><div class="meta">${dateText(room.createdAt)}</div></div>
+      `).join("") || `<div class="empty">No room details shared yet.</div>`;
+      const approvals = admin ? `
+        <section class="panel" style="margin-top:16px">
+          <div class="panel-head"><h2>Member approvals</h2><span class="pill">${pendingMembers.length} pending</span></div>
+          ${pendingMembers.length ? pendingMembers.map(person => `
+            <div class="approval-row">
+              <div><b>${esc(person.displayName || "New member")}</b><div class="meta">${esc(person.carType || "Car not added")} · ${esc(person.email || "")}</div></div>
+              <button class="btn" data-approve="${esc(person.id)}">Approve</button>
+            </div>`).join("") : `<div class="empty">No members waiting for approval.</div>`}
+        </section>` : "";
+      return `${pageHeader("Welcome to the crew.", "Your official space for members, cars, daily updates, room details and group chat.", "OFFICIAL COMMUNITY")}
+        <section class="hero"><div class="eyebrow">Together as one crew</div><h1>DHAND GROUP <span class="gold">💀</span></h1><p>Official CPM2 group portal. Stay updated, connect with members and coordinate your next video session.</p></section>
+        <div class="stats">
+          <div class="stat"><span>APPROVED MEMBERS</span><strong>${members.length}</strong></div>
+          <div class="stat"><span>DAILY UPDATES</span><strong>${updates.length}</strong></div>
+          <div class="stat"><span>ROOM POSTS</span><strong>${rooms.length}</strong></div>
+          <div class="stat"><span>YOUR ROLE</span><strong style="font-size:1.2rem">${admin ? "ADMIN" : "MEMBER"}</strong></div>
+        </div>
+        <div class="grid-2">
+          <section class="panel"><div class="panel-head"><h2>Latest updates</h2><button class="text-btn" data-goto="updates">View all →</button></div>${latestUpdates}</section>
+          <section class="panel"><div class="panel-head"><h2>Latest room posts</h2><button class="text-btn" data-goto="rooms">View all →</button></div>${latestRooms}</section>
+        </div>${approvals}`;
+    }
+
+    function renderMembers() {
+      const cards = members.map(person => `
+        <article class="member-card">
+          <div class="member-top"><div class="avatar">${esc(initials(person.displayName))}</div><div><h3>${esc(person.displayName || "Member")}</h3><p>DHAND GROUP member</p></div></div>
+          <div class="detail-line"><span class="gold">CAR:</span> ${esc(person.carType || "Not added yet")}</div>
+          <div class="detail-line"><span class="gold">INFO:</span> ${esc(person.about || "No information added")}</div>
+          <span class="pill">APPROVED MEMBER</span>
+        </article>`).join("");
+      return `${pageHeader("Group members", "Meet the approved members and check their car details.", "THE CREW")}
+        <div class="panel-head"><h2>Member directory</h2><span class="pill">${members.length} members</span></div>
+        <div class="cards-grid">${cards || `<div class="empty" style="grid-column:1/-1">No approved members yet.</div>`}</div>`;
+    }
+
+    function renderUpdates() {
+      const list = updates.map(item => `
+        <article class="update-card">
+          <div class="panel-head"><h3>${esc(item.title)}</h3><span class="meta">${dateText(item.createdAt)}</span></div>
+          <p style="white-space:pre-wrap;color:#c8c0b2;margin:0">${esc(item.body)}</p>
+          <div class="meta">Posted by ${esc(item.createdByName || "Group admin")}</div>
+        </article>`).join("");
+      const adminForm = admin ? `
+        <section class="panel" style="margin-bottom:18px">
+          <div class="panel-head"><h2>Post a daily update</h2><span class="pill">ADMIN</span></div>
+          <form id="updateForm">
+            <div class="field"><label for="updateTitle">Update title</label><input id="updateTitle" maxlength="80" required placeholder="e.g. Today's video schedule" /></div>
+            <div class="field"><label for="updateBody">Update details</label><textarea id="updateBody" maxlength="1200" required placeholder="Write the daily update for your members..."></textarea></div>
+            <button class="btn" type="submit">Publish update</button><div id="updateFeedback" class="success"></div>
+          </form>
+        </section>` : "";
+      return `${pageHeader("Daily updates", "Important notices, video plans and daily group information.", "GROUP NOTICEBOARD")}${adminForm}
+        <div class="stack">${list || `<div class="empty">No updates have been published yet.</div>`}</div>`;
+    }
+
+    function renderRooms() {
+      const list = rooms.map(room => `
+        <article class="room-card">
+          <div class="panel-head"><h3>${esc(room.title)}</h3><span class="pill">VIDEO ROOM</span></div>
+          <div class="detail-line">${esc(room.details || "Join the room using the details below.")}</div>
+          <div class="room-secret"><b>ROOM ID:</b> ${esc(room.roomId)}</div>
+          <div class="room-secret"><b>PASSWORD:</b> ${esc(room.roomPassword)}</div>
+          <div class="meta">Posted ${dateText(room.createdAt)} · ${esc(room.createdByName || "Admin")}</div>
+        </article>`).join("");
+      const adminForm = admin ? `
+        <section class="panel" style="margin-bottom:18px">
+          <div class="panel-head"><h2>Share room details</h2><span class="pill">ADMIN</span></div>
+          <form id="roomForm">
+            <div class="form-grid">
+              <div class="field"><label for="roomTitle">Room title</label><input id="roomTitle" maxlength="70" required placeholder="e.g. Tonight's CPM2 video" /></div>
+              <div class="field"><label for="roomId">Room ID</label><input id="roomId" maxlength="100" required placeholder="Enter room ID" /></div>
+              <div class="field"><label for="roomPassword">Room password</label><input id="roomPassword" maxlength="100" required placeholder="Enter room password" /></div>
+              <div class="field"><label for="roomDetails">Extra details</label><input id="roomDetails" maxlength="180" placeholder="Time, instructions, etc." /></div>
+            </div>
+            <button class="btn" type="submit">Publish room details</button><div id="roomFeedback" class="success"></div>
+          </form>
+        </section>` : "";
+      return `${pageHeader("Room information", "Room IDs and passwords shared by the admin for approved members only.", "VIDEO COORDINATION")}
+        <div class="notice" style="margin-bottom:17px">Room details are visible to approved group accounts. Do not post personal account passwords or other sensitive credentials here.</div>
+        ${adminForm}<div class="stack">${list || `<div class="empty">No room information has been shared yet.</div>`}</div>`;
+    }
+
+    function renderChat() {
+      const chatItems = messages.map(message => `
+        <div class="chat-message ${message.uid === currentUser.uid ? "mine" : ""}">
+          <strong>${esc(message.displayName || "Member")}</strong>
+          <p>${esc(message.text)}</p><small>${dateText(message.createdAt)}</small>
+        </div>`).join("");
+      return `${pageHeader("Group chat", "Talk with approved DHAND GROUP members in real time.", "CREW CHAT")}
+        <section class="panel chat-box">
+          <div id="chatMessages" class="chat-messages">${chatItems || `<div class="empty">No messages yet. Start the conversation respectfully.</div>`}</div>
+          <form id="chatForm" class="chat-form"><input id="chatInput" maxlength="500" required autocomplete="off" placeholder="Write a message..." /><button class="btn" type="submit">Send</button></form>
+          <div id="chatFeedback" class="error"></div>
+        </section>`;
+    }
+
+    function renderAccount() {
+      return `${pageHeader("My account", "Manage your member details and find your account UID.", "ACCOUNT SETTINGS")}
+        <section class="panel" style="max-width:700px">
+          <div class="member-top"><div class="avatar">${esc(initials(profile?.displayName))}</div><div><h2>${esc(profile?.displayName || "Member")}</h2><p class="muted" style="margin:5px 0 0">${esc(currentUser.email || "")}</p></div></div>
+          <form id="profileForm">
+            <div class="field"><label for="profileName">Display name</label><input id="profileName" maxlength="40" required value="${esc(profile?.displayName || "")}" /></div>
+            <div class="field"><label for="profileCar">Car type / model</label><input id="profileCar" maxlength="60" value="${esc(profile?.carType || "")}" placeholder="e.g. Thar, Fortuner, Scorpio" /></div>
+            <div class="field"><label for="profileAbout">Member information</label><textarea id="profileAbout" maxlength="100">${esc(profile?.about || "")}</textarea></div>
+            <button class="btn" type="submit">Save profile</button><div id="profileFeedback" class="success"></div>
+          </form>
+          <div class="field" style="margin-top:24px"><label>Your account UID</label><code id="accountUid" class="account-code">${esc(currentUser.uid)}</code></div>
+          <button id="copyUid" class="btn btn-secondary" type="button">Copy UID</button>
+          <div class="notice" style="margin-top:18px">${admin ? "You are signed in as the configured group admin." : "Your profile details are visible to approved group members."} Never share your password with anyone.</div>
+        </section>`;
+    }
+
+    function renderPage() {
+      document.querySelectorAll(".nav button").forEach(button => button.classList.toggle("active", button.dataset.page === activePage));
+      const renderers = {
+        dashboard: renderDashboard, members: renderMembers, updates: renderUpdates,
+        rooms: renderRooms, chat: renderChat, account: renderAccount
+      };
+      pageContent.innerHTML = (renderers[activePage] || renderDashboard)();
+      attachPageHandlers();
+      if (activePage === "chat") {
+        const box = $("chatMessages");
+        if (box) box.scrollTop = box.scrollHeight;
+      }
+    }
+
+    function attachPageHandlers() {
+      pageContent.querySelectorAll("[data-goto]").forEach(button => button.addEventListener("click", () => navigate(button.dataset.goto)));
+      pageContent.querySelectorAll("[data-approve]").forEach(button => button.addEventListener("click", async () => {
+        button.disabled = true;
+        try {
+          await updateDoc(doc(db, "users", button.dataset.approve), { status: "approved" });
+        } catch (error) { alert(friendlyError(error)); button.disabled = false; }
+      }));
+
+      const updateForm = $("updateForm");
+      if (updateForm) updateForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        const title = $("updateTitle").value.trim(), body = $("updateBody").value.trim();
+        if (!title || !body) return;
+        try {
+          await addDoc(collection(db, "updates"), { title, body, createdBy: currentUser.uid, createdByName: profile?.displayName || "Admin", createdAt: serverTimestamp() });
+          updateForm.reset(); $("updateFeedback").textContent = "Update published successfully.";
+        } catch (error) { $("updateFeedback").textContent = friendlyError(error); }
+      });
+
+      const roomForm = $("roomForm");
+      if (roomForm) roomForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        const title = $("roomTitle").value.trim(), roomId = $("roomId").value.trim();
+        const roomPassword = $("roomPassword").value.trim(), details = $("roomDetails").value.trim();
+        if (!title || !roomId || !roomPassword) return;
+        try {
+          await addDoc(collection(db, "rooms"), { title, roomId, roomPassword, details, createdBy: currentUser.uid, createdByName: profile?.displayName || "Admin", createdAt: serverTimestamp() });
+          roomForm.reset(); $("roomFeedback").textContent = "Room details published.";
+        } catch (error) { $("roomFeedback").textContent = friendlyError(error); }
+      });
+
+      const chatForm = $("chatForm");
+      if (chatForm) chatForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        const input = $("chatInput"), text = input.value.trim();
+        if (!text) return;
+        const send = chatForm.querySelector("button");
+        send.disabled = true;
+        try {
+          await addDoc(collection(db, "messages"), {
+            text, uid: currentUser.uid, displayName: profile?.displayName || "Member", createdAt: serverTimestamp()
+          });
+          input.value = "";
+          $("chatFeedback").textContent = "";
+        } catch (error) { $("chatFeedback").textContent = friendlyError(error); }
+        finally { send.disabled = false; input.focus(); }
+      });
+
+      const profileForm = $("profileForm");
+      if (profileForm) profileForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        try {
+          const displayName = $("profileName").value.trim();
+          if (!displayName) throw new Error("Display name cannot be empty.");
+          await updateDoc(doc(db, "users", currentUser.uid), {
+            displayName, carType: $("profileCar").value.trim(), about: $("profileAbout").value.trim()
+          });
+          profile = { ...profile, displayName, carType: $("profileCar").value.trim(), about: $("profileAbout").value.trim() };
+          $("userChip").textContent = displayName;
+          $("profileFeedback").textContent = "Profile saved.";
+          renderPage();
+        } catch (error) { $("profileFeedback").textContent = friendlyError(error); }
+      });
+
+      const copyUid = $("copyUid");
+      if (copyUid) copyUid.addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText(currentUser.uid); copyUid.textContent = "Copied!"; }
+        catch (_) { copyUid.textContent = "Select and copy the UID above."; }
+      });
+    }
+
+    function navigate(page) {
+      activePage = page;
+      renderPage();
+    }
+    document.querySelectorAll(".nav button").forEach(button => button.addEventListener("click", () => navigate(button.dataset.page)));
+
+    if (!configReady) {
+      showSetupInstructions();
+    } else {
+      try {
+        const app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+        onAuthStateChanged(auth, async user => {
+          stopListeners();
+          if (!user) {
+            currentUser = null; profile = null; admin = false;
+            showOnly("auth");
+            return;
+          }
+          try {
+            await enterApp(user);
+          } catch (error) {
+            showOnly("auth");
+            setAuthError(friendlyError(error));
+          }
+        });
+      } catch (error) {
+        showSetupInstructions();
+        setAuthError("Firebase setup error: " + error.message);
+      }
+    }
+  </script>
+</body>
+</html>
